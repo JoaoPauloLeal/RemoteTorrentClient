@@ -1,6 +1,6 @@
 namespace RemoteTorrentClient
 {
-    public interface IShell
-    {
-    }
+	public interface IShell
+	{
+	}
 }

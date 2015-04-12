@@ -43,12 +43,16 @@
     <Reference Include="Caliburn.Micro.Platform">
       <HintPath>..\packages\Caliburn.Micro.2.0.2\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -68,12 +72,53 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="Helpers\DateTimeHelper.cs" />
+    <Compile Include="JsonConverters\LabelConverter.cs" />
+    <Compile Include="JsonConverters\TorrentConverter.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="Models\bt_transp_disposition.cs" />
+    <Compile Include="Models\File.cs" />
+    <Compile Include="Models\FilePriority.cs" />
+    <Compile Include="Models\Peer.cs" />
+    <Compile Include="Models\RssFeed.cs" />
+    <Compile Include="Models\RssFilter.cs" />
+    <Compile Include="Models\RssFilterFlag.cs" />
+    <Compile Include="Models\RssItem.cs" />
+    <Compile Include="Models\BuildNumber.cs" />
+    <Compile Include="Models\RssItemCodec.cs" />
+    <Compile Include="Models\RssItemQuality.cs" />
+    <Compile Include="Models\SettingAccess.cs" />
+    <Compile Include="Models\SettingData.cs" />
+    <Compile Include="Models\SettingType.cs" />
+    <Compile Include="Models\Torrent.cs" />
+    <Compile Include="Models\TorrentCollection.cs" />
+    <Compile Include="Models\TorrentDoubleClickAction.cs" />
+    <Compile Include="Models\TorrentLabel.cs" />
+    <Compile Include="Models\TorrentLabelCollection.cs" />
+    <Compile Include="Models\TorrentList.cs" />
+    <Compile Include="Models\TorrentListBase.cs" />
+    <Compile Include="Models\TorrentListChanged.cs" />
+    <Compile Include="Models\TorrentRemovalAction.cs" />
+    <Compile Include="Models\TorrentStatus.cs" />
+    <Compile Include="Resources\RssItemCodec.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RssItemCodec.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\RssItemQuality.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RssItemQuality.resx</DependentUpon>
+    </Compile>
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helpers\JsonReaderExtensions.cs" />
+    <Compile Include="WebUI\WebUIClient.cs" />
+    <Compile Include="WebUI\WebUIQuery.cs" />
+    <Compile Include="WebUI\WebUIQueryBuilder.cs" />
     <Page Include="ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -97,6 +142,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\RssItemCodec.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RssItemCodec.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\RssItemQuality.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RssItemQuality.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -106,6 +159,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Converters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
