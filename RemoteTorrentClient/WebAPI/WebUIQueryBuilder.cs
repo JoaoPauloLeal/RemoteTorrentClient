@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace RemoteTorrentClient.WebUI
+namespace RemoteTorrentClient.WebAPI
 {
 	class WebUIQueryBuilder
 	{

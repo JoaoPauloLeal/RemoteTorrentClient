@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RemoteTorrentClient.WebUI
+namespace RemoteTorrentClient.WebAPI
 {
 	class WebUIQuery : List<KeyValuePair<string, string>>
 	{
