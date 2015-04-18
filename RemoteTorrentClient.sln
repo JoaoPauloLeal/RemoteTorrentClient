@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D7A58E
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteTorrentClient.Tests", "RemoteTorrentClient.Tests\RemoteTorrentClient.Tests.csproj", "{4BD92721-0305-4FF4-9431-2B6F4F6AE474}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{97A16990-09A1-4AC7-948D-E1CAFE2CADFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97A16990-09A1-4AC7-948D-E1CAFE2CADFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97A16990-09A1-4AC7-948D-E1CAFE2CADFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BD92721-0305-4FF4-9431-2B6F4F6AE474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BD92721-0305-4FF4-9431-2B6F4F6AE474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BD92721-0305-4FF4-9431-2B6F4F6AE474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BD92721-0305-4FF4-9431-2B6F4F6AE474}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -72,6 +72,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="ContainerConfigurer.cs" />
     <Compile Include="Helpers\DateTimeHelper.cs" />
     <Compile Include="JsonConverters\LabelConverter.cs" />
     <Compile Include="JsonConverters\TorrentConverter.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Models\TorrentListChanged.cs" />
     <Compile Include="Models\TorrentRemovalAction.cs" />
     <Compile Include="Models\TorrentStatus.cs" />
+    <Compile Include="Models\WebUIConnectionParameters.cs" />
     <Compile Include="Resources\RssItemCodec.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -116,6 +118,19 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\JsonReaderExtensions.cs" />
+    <Compile Include="UI\Torrent\Client\ClientViewModel.cs" />
+    <Compile Include="UI\Torrent\Client\ConnectionParamsViewModel.cs" />
+    <Compile Include="UI\Torrent\Client\ClientSelectorViewModel.cs" />
+    <Compile Include="UI\Torrent\FilesViewModel.cs" />
+    <Compile Include="UI\Torrent\GroupsViewModel.cs" />
+    <Compile Include="UI\Torrent\InfoViewModel.cs" />
+    <Compile Include="UI\Torrent\PeersViewModel.cs" />
+    <Compile Include="UI\Torrent\RatingsViewModel.cs" />
+    <Compile Include="UI\Torrent\SpeedViewModel.cs" />
+    <Compile Include="UI\Torrent\StatusBarViewModel.cs" />
+    <Compile Include="UI\Torrent\ToolBarViewModel.cs" />
+    <Compile Include="UI\Torrent\TorrentsViewModel.cs" />
+    <Compile Include="UI\Torrent\TrackersViewModel.cs" />
     <Compile Include="WebAPI\WebUIClient.cs" />
     <Compile Include="WebAPI\WebUIQuery.cs" />
     <Compile Include="WebAPI\WebUIQueryBuilder.cs" />
@@ -162,7 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Converters\" />
-    <Folder Include="UI\" />
+    <Folder Include="UI\Torrent\Preferences\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
