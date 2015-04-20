@@ -5,7 +5,7 @@ using System;
 namespace RemoteTorrentClient.Models
 {
 	[JsonConverter(typeof(TorrentConverter))]
-	class Torrent
+	public class Torrent
 	{
 		/// <summary>
 		/// Torrent hash is a 40-character ASCII string.

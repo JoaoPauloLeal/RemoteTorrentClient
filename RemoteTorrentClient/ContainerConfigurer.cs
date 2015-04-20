@@ -29,6 +29,8 @@ namespace RemoteTorrentClient
 			container.PerRequest<ToolBarViewModel>();
 			container.PerRequest<TorrentsViewModel>();
 			container.PerRequest<TrackersViewModel>();
+			container.PerRequest<GroupItemViewModel>();
+			container.Handler<IScreen>((c) => c.GetInstance<GroupItemViewModel>());
 
 			// UI.Torrent.Client
 			container.PerRequest<ClientSelectorViewModel>();

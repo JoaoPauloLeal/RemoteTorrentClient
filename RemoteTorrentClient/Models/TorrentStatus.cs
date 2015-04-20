@@ -3,7 +3,7 @@
 namespace RemoteTorrentClient.Models
 {
 	[Flags]
-	enum TorrentStatus
+	public enum TorrentStatus
 	{
 		Started = (1 << 0),
 		Checking = (1 << 1),

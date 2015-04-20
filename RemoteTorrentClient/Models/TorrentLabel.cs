@@ -4,17 +4,17 @@ using RemoteTorrentClient.JsonConverters;
 namespace RemoteTorrentClient.Models
 {
 	[JsonConverter(typeof(LabelConverter))]
-	class TorrentLabel
+	public class TorrentLabel
 	{
 		[JsonProperty(Order = 0)]
-		public string Label
+		public string Text
 		{
 			get;
 			set;
 		}
 
 		[JsonProperty(Order = 1)]
-		public int TorrentsInLabel
+		public int Count
 		{
 			get;
 			set;

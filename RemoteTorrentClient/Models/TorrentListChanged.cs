@@ -13,14 +13,14 @@ namespace RemoteTorrentClient.Models
 		}
 
 		[JsonProperty("torrentm")]
-		public List<string> RemovedTorrents
+		public string[] RemovedTorrents
 		{
 			get;
 			set;
 		}
 
 		[JsonProperty("rssfeedp")]
-		public object[,] ChangedRssFeeds
+		public RssFeedCollection ChangedRssFeeds
 		{
 			get;
 			set;
@@ -34,7 +34,7 @@ namespace RemoteTorrentClient.Models
 		}
 
 		[JsonProperty("rssfilterp")]
-		public object[,] ChangedRssFilters
+		public RssFilterCollection ChangedRssFilters
 		{
 			get;
 			set;

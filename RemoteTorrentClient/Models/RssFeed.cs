@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RemoteTorrentClient.Models
 {
-	class RssFeed
+	public class RssFeed
 	{
 		public RssFeed()
 		{

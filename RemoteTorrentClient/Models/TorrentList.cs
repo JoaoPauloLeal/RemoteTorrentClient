@@ -12,14 +12,14 @@ namespace RemoteTorrentClient.Models
 		}
 
 		[JsonProperty("rssfeeds")]
-		public object[,] RssFeeds
+		public RssFeedCollection RssFeeds
 		{
 			get;
 			set;
 		}
 
 		[JsonProperty("rssfilters")]
-		public object[,] RssFilters
+		public RssFilterCollection RssFilters
 		{
 			get;
 			set;

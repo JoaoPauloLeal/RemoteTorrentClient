@@ -2,7 +2,7 @@
 
 namespace RemoteTorrentClient.Models
 {
-	public class TorrentCollection : List<Torrent>
+	public class RssFilterCollection : List<RssFilter>
 	{
 	}
 }

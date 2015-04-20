@@ -77,12 +77,15 @@
     <Compile Include="JsonConverters\LabelConverter.cs" />
     <Compile Include="JsonConverters\TorrentConverter.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="Messages\TorrentsUpdated.cs" />
     <Compile Include="Models\bt_transp_disposition.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\FilePriority.cs" />
     <Compile Include="Models\Peer.cs" />
     <Compile Include="Models\RssFeed.cs" />
+    <Compile Include="Models\RssFeedCollection.cs" />
     <Compile Include="Models\RssFilter.cs" />
+    <Compile Include="Models\RssFilterCollection.cs" />
     <Compile Include="Models\RssFilterFlag.cs" />
     <Compile Include="Models\RssItem.cs" />
     <Compile Include="Models\BuildNumber.cs" />
@@ -118,6 +121,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\JsonReaderExtensions.cs" />
+    <Compile Include="UI\Torrent\GroupItemViewModel.cs" />
+    <Compile Include="UI\Torrent\GroupType.cs" />
     <Compile Include="UI\Torrent\Client\ClientViewModel.cs" />
     <Compile Include="UI\Torrent\Client\ConnectionParamsViewModel.cs" />
     <Compile Include="UI\Torrent\Client\ClientSelectorViewModel.cs" />
@@ -177,6 +182,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Converters\" />
+    <Folder Include="Resources\Images\" />
+    <Folder Include="Resources\Strings\" />
     <Folder Include="UI\Torrent\Preferences\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

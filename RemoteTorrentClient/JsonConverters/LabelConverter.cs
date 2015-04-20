@@ -16,8 +16,8 @@ namespace RemoteTorrentClient.JsonConverters
 		{
 			var obj = new TorrentLabel()
 			{
-				Label = reader.ReadAsString(),
-				TorrentsInLabel = reader.ReadAsInt32().GetValueOrDefault()
+				Text = reader.ReadAsString(),
+				Count = reader.ReadAsInt32().GetValueOrDefault()
 			};
 
 			if (!reader.IsEndOfArray())
