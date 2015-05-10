@@ -4,8 +4,6 @@ using RemoteTorrentClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RemoteTorrentClient.UI.Torrent
 {
@@ -42,34 +40,6 @@ namespace RemoteTorrentClient.UI.Torrent
 			Items.AddRange(groups);
 		}
 
-		#region IHandle<TorrentsUpdated>
-		public void Handle(TorrentsUpdated message)
-		{
-			UpdateLabelsList(message.Labels);
-		}
-
-		private void UpdateLabelsList(TorrentLabelCollection labels)
-		{
-			var allLabelsVM = GetGroup(GroupType.AllLabels);
-			allLabelsVM.Childs.IsNotifying = false;
-
-			foreach (var label in labels)
-			{
-				var customLabelVM = allLabelsVM.Childs.FirstOrDefault(item => item.DisplayName == label.Text);
-
-				if (customLabelVM != null)
-					customLabelVM.Count = label.Count;
-				else
-					allLabelsVM.Childs.Add(_groupItemFactory().With(GroupType.Label, label.Text, label.Count));
-			}
-
-			var removedCustomLabelVMs = allLabelsVM.Childs.Where(item => item.Type != GroupType.NoLabel && !labels.Contains(item.DisplayName));
-			allLabelsVM.Childs.RemoveRange(removedCustomLabelVMs.ToList());
-
-			allLabelsVM.Childs.IsNotifying = true;
-			allLabelsVM.Childs.Refresh();
-		}
-
 		public GroupItemViewModel GetGroup(GroupType type)
 		{
 			switch (type)
@@ -95,6 +65,39 @@ namespace RemoteTorrentClient.UI.Torrent
 				default:
 					throw new NotImplementedException();
 			}
+		}
+
+		#region IHandle<TorrentsUpdated>
+		public void Handle(TorrentsUpdated message)
+		{
+			UpdateLabelsList(message.Labels);
+		}
+
+		private void UpdateLabelsList(TorrentLabelCollection labels)
+		{
+			var allLabelsVM = GetGroup(GroupType.AllLabels);
+
+			UpdateOrAddLabelVMs(labels, allLabelsVM, _groupItemFactory);
+			RemoveOldLabelVMs(labels, allLabelsVM);
+		}
+
+		public static void UpdateOrAddLabelVMs(TorrentLabelCollection labels, GroupItemViewModel labelsGroupVM, Func<GroupItemViewModel> groupItemFactory)
+		{
+			foreach (var label in labels)
+			{
+				var labelVM = labelsGroupVM.Childs.FirstOrDefault(item => item.Text == label.Text);
+
+				if (labelVM != null)
+					labelVM.Count = label.Count;
+				else
+					labelsGroupVM.Childs.Add(groupItemFactory().With(GroupType.Label, label.Text, label.Count));
+			}
+		}
+
+		public static void RemoveOldLabelVMs(TorrentLabelCollection labels, GroupItemViewModel allLabelsVM)
+		{
+			var removedCustomLabelVMs = allLabelsVM.Childs.Where(item => item.Type != GroupType.NoLabel && !labels.Contains(item.DisplayName));
+			allLabelsVM.Childs.RemoveRange(removedCustomLabelVMs.ToList());
 		}
 		#endregion
 	}

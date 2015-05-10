@@ -1,15 +1,12 @@
 ﻿using Caliburn.Micro;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RemoteTorrentClient.UI.Torrent
 {
 	public class GroupItemViewModel : Screen
 	{
 		private GroupType _type;
+		private string _text;
 		private int _count;
 
 		public GroupType Type
@@ -22,6 +19,19 @@ namespace RemoteTorrentClient.UI.Torrent
 			{
 				_type = value;
 				NotifyOfPropertyChange(() => Type);
+			}
+		}
+
+		public string Text
+		{
+			get
+			{
+				return _text;
+			}
+			set
+			{
+				_text = value;
+				NotifyOfPropertyChange(() => Text);
 			}
 		}
 
@@ -38,7 +48,7 @@ namespace RemoteTorrentClient.UI.Torrent
 			}
 		}
 
-		public BindableCollection<GroupItemViewModel> Childs
+		public virtual BindableCollection<GroupItemViewModel> Childs
 		{
 			get;
 			private set;
@@ -52,19 +62,19 @@ namespace RemoteTorrentClient.UI.Torrent
 			}
 		}
 
-		public GroupItemViewModel With(GroupType type, string name, int count = 0, IEnumerable<GroupItemViewModel> childs = null)
+		public GroupItemViewModel With(GroupType type, string text, int count = 0, IEnumerable<GroupItemViewModel> childs = null)
 		{
 			IsNotifying = false;
-			Initialize(type, name, count, childs);
+			Initialize(type, text, count, childs);
 			IsNotifying = true;
 
 			return this;
 		}
 
-		private void Initialize(GroupType type, string name, int count, IEnumerable<GroupItemViewModel> childs)
+		private void Initialize(GroupType type, string text, int count, IEnumerable<GroupItemViewModel> childs)
 		{
 			Type = type;
-			DisplayName = name;
+			Text = text;
 			Count = count;
 
 			if (childs != null)

@@ -1,6 +1,4 @@
-﻿using Caliburn.Micro;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RemoteTorrentClient.Messages;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RemoteTorrentClient.Models;
 using RemoteTorrentClient.UI.Torrent;
 using System;
@@ -8,14 +6,13 @@ using System.Linq;
 
 namespace RemoteTorrentClient.Tests
 {
-	
 	public class GroupsViewModelTests
 	{
 		[TestClass]
 		public class GetGroup
 		{
 			[TestMethod]
-			public void GetGroupOfSpecificType_ReturnsGroupWithTheSameType()
+			public void GetGroup_GroupOfSpecificType_ReturnsGroupWithTheSameType()
 			{
 				var groupsVM = IoC.Get<GroupsViewModel>();
 				var types = Enum.GetValues(typeof(GroupType));
@@ -32,7 +29,7 @@ namespace RemoteTorrentClient.Tests
 
 			[TestMethod]
 			[ExpectedException(typeof(NotImplementedException))]
-			public void GetGroupOfLabelType_FailsWithException()
+			public void GetGroup_GroupOfLabelType_FailsWithException()
 			{
 				var groupsVM = IoC.Get<GroupsViewModel>();
 				groupsVM.GetGroup(GroupType.Label);
@@ -40,7 +37,7 @@ namespace RemoteTorrentClient.Tests
 
 			[TestMethod]
 			[ExpectedException(typeof(NotImplementedException))]
-			public void GetGroupOfFeedType_FailsWithException()
+			public void GetGroup_GroupOfFeedType_FailsWithException()
 			{
 				var groupsVM = IoC.Get<GroupsViewModel>();
 				groupsVM.GetGroup(GroupType.Feed);
@@ -50,75 +47,77 @@ namespace RemoteTorrentClient.Tests
 		[TestClass]
 		public class UpdateLabelsList
 		{
-			private static IEventAggregator _eventAggregator;
-			private static GroupsViewModel _groupsVM;
-			private static GroupItemViewModel _allLabelsVM;
-
-			public static TorrentLabel _label;
+			private static Func<GroupItemViewModel> _groupItemFactory;
+			private GroupItemViewModel _labelsGroupVM;
 
 			[ClassInitialize]
 			public static void Initialize(TestContext context)
 			{
-				_eventAggregator = IoC.Get<IEventAggregator>();
-				_groupsVM = IoC.Get<GroupsViewModel>();
-				_allLabelsVM = _groupsVM.GetGroup(GroupType.AllLabels);
+				_groupItemFactory = IoC.Get<Func<GroupItemViewModel>>();
+			}
 
-				_label = new TorrentLabel()
+			[TestInitialize]
+			public void Initialize()
+			{
+				var groupsVM = IoC.Get<GroupsViewModel>();
+				_labelsGroupVM = groupsVM.GetGroup(GroupType.AllLabels);
+			}
+
+			[TestMethod]
+			public void UpdateOrAddLabelVMs_NewLabel_NewLabelCreatedAndOldLabelStaysAsIs()
+			{
+				var labels = new TorrentLabelCollection()
 				{
-					Text = "My Label",
-					Count = 1,
-				};
-			}
-
-			[TestMethod]
-			public void PublishNewLabel_LabelAdded()
-			{
-				PublishLabels();
-				var labelExistedBefore = _allLabelsVM.Childs.Any((item) => item.DisplayName == _label.Text);
-				Assert.IsFalse(labelExistedBefore);
-
-				PublishLabels(_label);
-				var labelExistsNow = _allLabelsVM.Childs.Any((item) => item.DisplayName == _label.Text);
-				Assert.IsTrue(labelExistsNow);
-			}
-
-			[TestMethod]
-			public void PublishModifiedLabel_CountValueChanged()
-			{
-				PublishLabels(_label);
-				var oldValue = _allLabelsVM.Childs.First((item) => item.DisplayName == _label.Text).Count;
-				Assert.AreEqual(_label.Count, oldValue);
-
-				var expectedValue = oldValue + 1;
-				_label.Count = expectedValue;
-
-				PublishLabels(_label);
-				var newValue = _allLabelsVM.Childs.First((item) => item.DisplayName == _label.Text).Count;
-				Assert.AreEqual(expectedValue, newValue);
-			}
-
-			[TestMethod]
-			public void PublishWithoutExistingLabel_LabelRemoved()
-			{
-				PublishLabels(_label);
-				var labelExistedBefore = _allLabelsVM.Childs.Any((item) => item.DisplayName == _label.Text);
-				Assert.IsTrue(labelExistedBefore);
-
-				PublishLabels();
-				var labelExistsNow = _allLabelsVM.Childs.Any((item) => item.DisplayName == _label.Text);
-				Assert.IsFalse(labelExistsNow);
-				var labelNoLabelStillExists = _allLabelsVM.Childs.Any((item) => item.Type == GroupType.NoLabel);
-				Assert.IsTrue(labelNoLabelStillExists);
-			}
-
-			private void PublishLabels(params TorrentLabel[] labels)
-			{
-				var message = new TorrentsUpdated()
-				{
-					Labels = new TorrentLabelCollection(labels)
+					{ "My Label", 1 },
 				};
 
-				_eventAggregator.PublishOnCurrentThread(message);
+				GroupsViewModel.UpdateOrAddLabelVMs(labels, _labelsGroupVM, _groupItemFactory);
+
+				Assert.AreEqual(2, _labelsGroupVM.Childs.Count);
+				var noLabelVM = _labelsGroupVM.Childs.FirstOrDefault(x => x.Type == GroupType.NoLabel);
+				Assert.IsNotNull(noLabelVM);
+				var customLabelVM = _labelsGroupVM.Childs.FirstOrDefault(x => x.Type == GroupType.Label);
+				Assert.AreEqual(labels.First().Text, customLabelVM.Text);
+				Assert.AreEqual(labels.First().Count, customLabelVM.Count);
+			}
+
+			[TestMethod]
+			public void UpdateOrAddLabelVMs_ModifiedLabelCount_LabelCountValueIncremented()
+			{
+				var labels = new TorrentLabelCollection()
+				{
+					{ "My Label", 1 },
+				};
+
+				GroupsViewModel.UpdateOrAddLabelVMs(labels, _labelsGroupVM, _groupItemFactory);
+				labels.First().Count++;
+				GroupsViewModel.UpdateOrAddLabelVMs(labels, _labelsGroupVM, _groupItemFactory);
+
+				Assert.AreEqual(2, _labelsGroupVM.Childs.Count);
+				var noLabelVM = _labelsGroupVM.Childs.FirstOrDefault(x => x.Type == GroupType.NoLabel);
+				Assert.IsNotNull(noLabelVM);
+				var customLabelVM = _labelsGroupVM.Childs.FirstOrDefault(x => x.Type == GroupType.Label);
+				Assert.AreEqual(labels.First().Text, customLabelVM.Text);
+				Assert.AreEqual(labels.First().Count, customLabelVM.Count);
+			}
+
+			[TestMethod]
+			public void RemoveOldLabelVMs_LabelRemoved_LabelIsGone()
+			{
+				var labels = new TorrentLabelCollection()
+				{
+					{ "My Label", 1 },
+				};
+
+				GroupsViewModel.UpdateOrAddLabelVMs(labels, _labelsGroupVM, _groupItemFactory);
+				labels.RemoveAt(0);
+				GroupsViewModel.RemoveOldLabelVMs(labels, _labelsGroupVM);
+
+				Assert.AreEqual(1, _labelsGroupVM.Childs.Count);
+				var noLabelVM = _labelsGroupVM.Childs.FirstOrDefault(x => x.Type == GroupType.NoLabel);
+				Assert.IsNotNull(noLabelVM);
+				var customLabelVM = _labelsGroupVM.Childs.FirstOrDefault(x => x.Type == GroupType.Label);
+				Assert.IsNull(customLabelVM);
 			}
 		}
 	}
